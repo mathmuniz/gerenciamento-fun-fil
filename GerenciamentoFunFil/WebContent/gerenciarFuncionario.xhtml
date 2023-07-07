@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head>
+	
+</h:head> 
+
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;	
+	font-weight: bold;
+}
+	
+.btn-gravar {
+		width: 300px;
+		height: 30px;
+		background-color: black;
+		color: white;
+		border-radius: 5px;
+		font-size: 18px;
+	}
+	
+	
+		.form-input {
+		width: 300px;
+		height: 30px;
+		border-radius: 5px;
+		font-size: 18px;
+	}
+	.msgs {
+		background-color: black;
+		color: red;
+		font-size: 20px;
+		border: 1px solid red;
+	}
+	.painel-form {
+	margin-top: 20px;
+	border-radius: 5px;
+		width: 400px;
+		padding: 10px;
+		background-color: red;
+		color: white;
+		font-size: 18px;
+	}
+	.container-pesquisar {
+		padding: 30px;
+		font-size: 18px;
+	}
+	.container-list {
+		border-radius: 5px;
+		padding: 30px;
+		margin: 30px;
+		
+		border: 3px solid red;
+		font-size: 18px;
+		
+	}
+	
+</style>
+<body> 
+<center>
+<h:messages class="msgs" />
+<h:form>
+
+<h1>Gerenciamento de funcionários</h1>
+
+
+	<h:panelGrid columns="2" class="painel-form">
+		<h:outputLabel value="Nome:" />
+		<h:inputText class="form-input" value="#{funcionarioBean.funcionario.nome}"  required="true" requiredMessage="Nome não pode ser vazio"/>
+		
+		<h:outputLabel value="Idade:" />
+		<h:inputText class="form-input" value="#{funcionarioBean.funcionario.idade}"  required="true" requiredMessage="Idade não pode ser vazio"/>
+		
+		<h:outputLabel value="CPF:" />
+		<h:inputText class="form-input" value="#{funcionarioBean.funcionario.cpf}"  required="true" requiredMessage="Cpf não pode ser vazio"/>
+		
+		<h:outputLabel value="Salario:" />
+		<h:inputText class="form-input" value="#{funcionarioBean.funcionario.salario}"  required="true" requiredMessage="Salário não pode ser vazio"/>
+		
+		<h:outputLabel value="Filial:" />
+		<h:selectOneMenu class="form-input" value="#{funcionarioBean.idFilial}" disabled="#{funcionarioBean.editando}">
+			<f:selectItem itemLabel="Selecione..." itemValue="0" />
+			<f:selectItems value="#{filialBean.filiais}" 
+						   var="filAtual" 
+						   itemLabel="#{filAtual.nome}" 
+						   itemValue="#{filAtual.id}"/> 
+		</h:selectOneMenu>
+		<h:outputLabel value="Rua:" />
+		<h:inputText class="form-input" value="#{funcionarioBean.funcionario.endereco.rua}" required="true" requiredMessage="Rua não pode ser vazio"/>
+		
+		<h:outputLabel value="Numero:" />
+		<h:inputText class="form-input" value="#{funcionarioBean.funcionario.endereco.numero}" required="true" requiredMessage="Numero não pode ser vazio"/>
+		
+		<h:outputLabel value="Bairro:" />
+		<h:inputText class="form-input" value="#{funcionarioBean.funcionario.endereco.bairro}" required="true" requiredMessage="Bairro não pode ser vazio"/>
+		
+		<h:outputLabel value="Cidade:" />
+		<h:inputText class="form-input" value="#{funcionarioBean.funcionario.endereco.cidade}" required="true" requiredMessage="Cidade não pode ser vazio"/>
+		
+		<h:outputLabel value="Cep:" />
+		<h:inputText class="form-input" value="#{funcionarioBean.funcionario.endereco.cep}" required="true" requiredMessage="Cep não pode ser vazio" />
+		
+		<h1></h1>
+		<h:commandButton class="btn-gravar" action="#{funcionarioBean.gravar()}" value="Cadastrar" />
+	</h:panelGrid>
+	
+</h:form>
+
+<h:form class="container-pesquisar">
+
+<h:panelGrid columns="3">
+	<h:outputLabel value="Nome do funcionário:"/>
+	<h:inputText class="form-input" value="#{funcionarioBean.filtro}" />
+	<h:commandButton class="btn-gravar" action="#{funcionarioBean.pesquisar()}" value="Listar" />
+</h:panelGrid>
+
+<h:dataTable class="container-list" value="#{funcionarioBean.funcionarios}" var="funAtual" border="1" >
+
+	<h:column>
+		<f:facet name="header">Nome</f:facet>
+		<h:outputText value="#{funAtual.nome}" />
+	</h:column>			
+	<h:column>
+		<f:facet name="header">Idade</f:facet>
+		<h:outputText value="#{funAtual.idade}" />
+	</h:column>		
+	<h:column>
+		<f:facet name="header">CPF</f:facet>
+		<h:outputText value="#{funcionarioBean.formatarCpf(funAtual.cpf)}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Salário</f:facet>
+		<h:outputText value="#{funAtual.salario}">
+		<f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" />
+		</h:outputText>
+	</h:column>
+	<h:column>
+		<f:facet name="header">Rua</f:facet>
+		<h:outputText value="#{funAtual.endereco.rua}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Numero</f:facet>
+		<h:outputText value="#{funAtual.endereco.numero}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Bairro</f:facet>
+		<h:outputText value="#{funAtual.endereco.bairro}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Cidade</f:facet>
+		<h:outputText value="#{funAtual.endereco.cidade}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">CEP</f:facet>
+		<h:outputText value="#{funAtual.endereco.cep}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Nome da filial</f:facet>
+		<h:outputText value="#{funAtual.filial.nome}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Cidade da filial</f:facet>
+		<h:outputText value="#{funAtual.filial.endereco.cidade}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Ações</f:facet>
+		<h:commandButton action="#{funcionarioBean.carregarFuncionario(funAtual)}" value="Editar" />
+		<h:commandButton action="#{funcionarioBean.excluir(funAtual)}" value="Excluir" />		
+	</h:column>
+	
+</h:dataTable>
+
+</h:form>
+</center>
+</body> 
+</html>

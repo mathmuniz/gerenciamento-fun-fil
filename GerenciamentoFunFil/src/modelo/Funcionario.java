@@ -1,14 +1,17 @@
 package modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Funcionario {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String nome;
@@ -18,6 +21,9 @@ public class Funcionario {
 	
 	@ManyToOne
 	private Filial filial;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Endereco endereco;
 	
 	public Funcionario () {
 		
@@ -69,6 +75,14 @@ public class Funcionario {
 
 	public void setFilial(Filial filial) {
 		this.filial = filial;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 	
 }

@@ -1,25 +1,26 @@
 package modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
 public class Filial {
-
-	@Id @GeneratedValue
-	private Long id;
-	
-	private String nome;
-	private String cnpj;
-	
-	@OneToOne
-	private Endereco endereco;
-	
-	public Filial () {
-		
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nome;
+    private String cnpj;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private Endereco endereco;
+    
+    public Filial() {
+    	
+    }
 
 	public Long getId() {
 		return id;
